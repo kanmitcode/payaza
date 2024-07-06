@@ -17,15 +17,15 @@ export class PaymentService {
         } = reqBody;
 
         reqBody.customer_first_name = "Kanmi";
-        reqBody.rpayment_reference = GENERATE_REFERENCE();
+        reqBody.payment_reference = GENERATE_REFERENCE();
 
         const getResult = await this._bankService.createDynamicAccounts(reqBody);
 
         return { 
             success: getResult.status, 
-            statusCode: (getResult.status == true) ? 200 : 400, 
-            message: (getResult.message != null) ? getResult.message : "Create Dynamic Accounts Response", 
-            data: getResult.data.result 
+            statusCode: getResult.data.response_code, 
+            message: getResult.data.response_message,
+            data: getResult.data
         };
     }
 
@@ -35,7 +35,7 @@ export class PaymentService {
             success: getResult.status, 
             statusCode: (getResult.status == true) ? 200 : 400, 
             message: (getResult.message != null) ? getResult.message : "Create Dynamic Accounts Response", 
-            data: getResult.data.result 
+            data: getResult.data 
         };
     }
 
