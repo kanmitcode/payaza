@@ -54,7 +54,7 @@ export class PayAzaService {
                   "customer_last_name": parsedBody.customer_last_name,
                   "customer_email": parsedBody.customer_email,
                   "customer_phone": parsedBody.customer_phone,
-                  "virtual_account_provider": "Premiumtrust",
+                  "virtual_account_provider": "Providus",
                   "payment_amount": 102,
                   "payment_reference": parsedBody.payment_reference,
                 }
@@ -65,15 +65,15 @@ export class PayAzaService {
             let options = {
                 method: 'POST',
                 headers: {
-                    'authorization': 'Payaza '+this.BASE64_API_KEY,
+                    'Authorization': 'Payaza '+this.BASE64_API_KEY,
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(requestBody)      
+                body: requestBody      
             }
 
             let response = await this.makeRequest(this.BASE_URL, options);
-            console.log("Create Dynamic Account---> ", response);
+            console.log("CreateDynamicAccount Response---> ", response);
             if(response && response.data) {
                 return { 
                     status: true,
@@ -99,7 +99,6 @@ export class PayAzaService {
 
     public getVirtualAccountDetails = async (parsedBody: any) => {
         try {
-
             let requestBody = JSON.stringify({
                 "service_type": "Account",
                 "service_payload": {
@@ -107,21 +106,22 @@ export class PayAzaService {
                   "application_module": "USER_MODULE",
                   "application_version": "1.0.0",
                   "request_class": "GetAccountDetailsStaticAndDynamic",
-                  "virtual_account_number":  parsedBody.virtual_account_number
+                  "virtual_account_number": parsedBody.virtual_account_number
                 }
               });
 
             let options = {
-                method: "POST",
+                method: 'POST',
                 headers: {
+                    'authorization': 'Payaza '+this.BASE64_API_KEY,
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(requestBody)      
+                body: requestBody     
             }
 
             let response = await this.makeRequest(this.BASE_URL, options);
-            console.log("Create Dynamic Account---> ", response);
+            console.log("getVirtualAccountDetails Response---> ", response);
             if(response && response.data) {
                 return { 
                     status: true,
